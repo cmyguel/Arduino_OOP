@@ -15,7 +15,7 @@ class Motor{
   byte wire_3;
   byte wire_4;
   byte enable_pin;
-  short direct=1; // 1 or -1
+  short spin_direction=1; // 1 or -1
   short state=1; 
 
   public:
@@ -39,14 +39,14 @@ class Motor{
       }
 
     void change_direction(){
-      if(direct==1)
-        {direct=-1;}
+      if(spin_direction==1)
+        {spin_direction=-1;}
       else 
-        {direct=1;}
+        {spin_direction=1;}
       }
 
     void do_step(){
-      state = state + direct;
+      state = state + spin_direction;
       if(state>4){state=1;}
       if(state<1){state=4;}
 
