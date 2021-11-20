@@ -9,52 +9,62 @@
 
   // YOUR CODE HERE
 
-class Motor{
-  public:
+class Motor {
+  public: // provides access to object's methods and attributes. (see protected)
+    // ATTRIBUTES: aka variables, properties.
     byte wire_1;
     byte wire_2;
     byte wire_3;
     byte wire_4;
     byte enable_pin;
-    short spin_direction=1; // 1 or -1
-    short state=1;
+    short spin_direction = 1; // 1 or -1
+    short step_state = 1;
 
-    // NEW VARIABLES
-    unsigned long update_time=0;
-    int step_count=0;
-  
-    Motor(byte WIRE_1, byte WIRE_2, byte WIRE_3, byte WIRE_4, byte ENABLE_PIN){
+    // OBJECT CONSTRUCTOR: Special method in the class that creates an Object.
+    // useful for initial Settups and save data in the object.
+    Motor(byte WIRE_1, byte WIRE_2, byte WIRE_3, byte WIRE_4, byte ENABLE_PIN) {
+      // initialize data
       wire_1 = WIRE_1;
       wire_2 = WIRE_2;
       wire_3 = WIRE_3;
       wire_4 = WIRE_4;
       enable_pin = ENABLE_PIN;
-      
+
+      // settup
       pinMode(enable_pin, OUTPUT);
       pinMode(wire_1, OUTPUT);
       pinMode(wire_2, OUTPUT);
       pinMode(wire_3, OUTPUT);
       pinMode(wire_4, OUTPUT);
       enable(HIGH);
-      }
+    }
 
-    void enable(bool en){
+    // METHODS: aka, functions
+    void enable(bool en) {
       digitalWrite(enable_pin, en);
+    }
+
+    void change_direction() {
+      if (spin_direction == 1)
+      {
+        spin_direction = -1;
+      }
+      else
+      {
+        spin_direction = 1;
+      }
+    }
+
+    void do_step() {
+      step_state = step_state + spin_direction;
+      if (step_state > 4) {
+        step_state = 1;
+      }
+      if (step_state < 1) {
+        step_state = 4;
       }
 
-    void change_direction(){
-      if(spin_direction==1)
-        {spin_direction=-1;}
-      else 
-        {spin_direction=1;}
-      }
-
-    void do_step(){
-      state = state + spin_direction;
-      if(state>4){state=1;}
-      if(state<1){state=4;}
-
-      switch (state) {
+      switch (step_state) {
         case 1:
           digitalWrite(wire_1, LOW);
           digitalWrite(wire_2, HIGH);
@@ -83,9 +93,8 @@ class Motor{
           // statements
           break;
       }
-      }
-  };
-
+    }
+};
 
 bool led_state = LOW;
 unsigned long t;

@@ -1,5 +1,7 @@
 //class Motor{
-//  public:
+//  ATTRIBUTES: byte wire_1, byte wire_2, byte wire_3, byte wire_4, byte enable_pin
+//              short spin_direction, short ste_state
+//  public: 
 //    Motor(WIRE_1, WIRE_2, WIRE_3, WIRE_4, ENABLE_PIN)
 //
 //    void enable()
