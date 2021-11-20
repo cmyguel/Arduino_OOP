@@ -1,68 +1,72 @@
-class Button{
-  public:
-    // General class variables
+class Button {
+  public: // provides access to object's methods and attributes. (see protected)
+
+    // ATTRIBUTES: aka variables, properties.
+    // State machine attributes
+    byte current_state = 1;
     unsigned long t;
     unsigned long update_time;
-    //-----------------------
+    // Other attributes
     byte pin;
-    byte current_state=1;
-    bool pressed=false;
+    bool pressed = false;
 
-    // Constructor
-    Button(byte PIN){
+    // CONSTRUCTOR
+    Button(byte PIN) {
       pin = PIN;
       pinMode(pin, INPUT_PULLUP);
       current_state = 1;
       update_time = 0;
-      }
+    }
 
-    // General class function
-    void update(){
+    // UPDATE: Check time and run state process
+    void update() {
       t = millis();
-      if(t >= update_time){
+      if (t >= update_time) {
         switch (current_state) {
           case 1:
-            state1_released();
-            break;
+            state1_released(); break;
           case 2:
-            state2_pressed();
-            break;
+            state2_pressed(); break;
           default:
             break;
         }
-        }
       }
+    }
 
-    bool was_pressed(){
-      if(pressed){
-        pressed=false;
-        return true;
-        }
-      else {return false;}
+    //  STATE METHODS
+    void state1_released() {
+      if (digitalRead(pin) == HIGH) {
+        update_time = t + 1;
       }
-
-//  STATES
-    void state1_released(){
-      if(digitalRead(pin)==LOW){
+      else {
         pressed = true;
         current_state = 2;
         update_time = t + 20;
-        }
-      else {
-        update_time = t + 1;
-        }
       }
+    }
 
-    void state2_pressed(){
-      if(digitalRead(pin)==HIGH){
+    void state2_pressed() {
+      if (digitalRead(pin) == LOW) {
+        update_time = t + 1;
+
+      }
+      else {
         current_state = 1;
         update_time = t + 20;
-        }
-      else{
-        update_time = t + 1;
-        }
       }
-  };
+    }
+
+    // OTHER METHODS
+    bool was_pressed() {
+      if (pressed) {
+        pressed = false;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+};
 
 Button button1 = Button(8);
 Button button2 = Button(9);
@@ -70,7 +74,6 @@ Button button2 = Button(9);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-
 }
 
 void loop() {
@@ -78,15 +81,10 @@ void loop() {
   button1.update();
   button2.update();
 
-  if (button1.was_pressed()) do_something();
-  if (button2.was_pressed()) do_something_else();
-
+  if (button1.was_pressed()) {
+    Serial.println("Doing something");
+  }
+  if (button2.was_pressed()) {
+    Serial.println("Doing something else");
+  }
 }
-
-void do_something(){
-  Serial.println("Doing something");
-  }
-
-void do_something_else(){
-  Serial.println("Doing something else");
-  }
