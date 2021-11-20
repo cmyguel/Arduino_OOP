@@ -98,7 +98,7 @@ class Motor {
     // YOUR CODE HERE
     // IMPLEMENT FUNCTIONS: UPDATE(), STATE1_STOPPED(), STATE2_SPINNING(), SET_STEP_DELAY(ms), START(), STOP()
     // NEW ATTRIBUTES: unsigned long t, unsigned long update_time, byte current_state,
-    //                bool spinning, int number_steps, int step_count, int spin_count, int spin_delay
+    //                bool spinning, int number_steps, int step_count, int spin_count, int step_delay
 
     void enable(bool en) {
       digitalWrite(enable_pin, en);

@@ -75,9 +75,8 @@ class Motor {
     byte current_state = 1;
     unsigned long t;
     unsigned long update_time;
+
     // Other attributes
-
-
     byte wire_1;
     byte wire_2;
     byte wire_3;
@@ -88,8 +87,8 @@ class Motor {
 
     int number_steps = 10;
     int step_count = 0;
+    int step_delay = 100;
     int spin_count = 0;
-    int spin_delay = 100;
     bool spinning = false;
 
     // CONSTRUCTOR
@@ -110,7 +109,7 @@ class Motor {
     // YOUR CODE HERE
     // IMPLEMENT FUNCTIONS: *UPDATE(), *STATE1_STOPPED(), *STATE2_SPINNING(), *SET_STEP_DELAY(ms), *START(), *STOP()
     // NEW VARIABLES: unsigned long *t, unsigned long *update_time, byte *current_state,
-    //                bool *spinning, int *number_steps, int *step_count, int *spin_count, int *spin_delay
+    //                bool *spinning, int *number_steps, int *step_count, int *spin_count, int *step_delay
 
     // UPDATE: Check time and run state process
     void update() {
@@ -137,7 +136,7 @@ class Motor {
 
     void state2_spinning() {
       do_step();
-      update_time = t + spin_delay;
+      update_time = t + step_delay;
     }
 
     // OTHER METHODS
@@ -151,8 +150,8 @@ class Motor {
       spinning = false;
     }
 
-    void set_step_delay(int SPIN_DELAY) {
-      spin_delay = SPIN_DELAY;
+    void set_step_delay(int STEP_DELAY) {
+      step_delay = STEP_DELAY;
     }
 
     void enable(bool en) {
