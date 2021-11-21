@@ -245,7 +245,7 @@ class Display {
       digitalWrite(cat, LOW);
     }
 
-    void show(byte number) {
+    void show_number(byte number) {
       switch (number) {
         case 0:
           digitalWrite(a, HIGH); digitalWrite(b, HIGH); digitalWrite(c, HIGH); digitalWrite(d, HIGH); digitalWrite(e, HIGH); digitalWrite(f, HIGH); digitalWrite(g, LOW);
@@ -348,7 +348,7 @@ void loop() {
   // connect display_x4 to show the spin count of motor1
 
   for (int i = 0; i <= 9; i++) {
-    display1.show(i);
+    display1.show_number(i);
     delay(500);
     display1.hide();
     delay(500);
